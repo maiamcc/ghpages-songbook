@@ -1,0 +1,508 @@
+:root {
+  /* Raw palette — the only literal hex values in the stylesheet. Every
+     other color is derived from these via color-mix(), so changing one
+     palette value updates borders, hover tints, etc. in lockstep. */
+  --primary: #073B3A;
+  --secondary: #0B6E4F;
+  --tertiary: #4DCCBD;
+  --quaternary: #5B2E48;
+  --quinary: #939196;
+
+  /* Semantic aliases */
+  --fg: var(--primary);
+  --muted: var(--quinary);
+  --accent: var(--secondary);
+  --highlight: var(--tertiary);
+  --chord: var(--secondary);
+
+  /* Derived shades */
+  --bg: color-mix(in srgb, var(--tertiary) 8%, white);
+  --border: color-mix(in srgb, var(--primary) 14%, white);
+  --separator: color-mix(in srgb, var(--tertiary) 40%, var(--quinary));
+  --hover-bg: color-mix(in srgb, var(--tertiary) 18%, transparent);
+}
+
+* { box-sizing: border-box; }
+
+/* Standard a11y utility: hide a node from sighted users while keeping
+   it in the accessibility tree (screen readers, voice control, etc.).
+   Used e.g. for the Range <dt> label, which sighted readers don't need
+   since the visual already shows the low → high notes. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Layout toggle links: "Print view →" floated to the top-right of the
+   song-header on a screen song page, and "← View on screen" at the
+   top of the body on the corresponding print page. Subtle so they
+   don't compete with the song content. The toggle gets hidden on
+   actual paper print further down. */
+.layout-toggle {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 0.5rem;
+}
+
+.layout-toggle a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--separator);
+  text-underline-offset: 3px;
+}
+
+.layout-toggle a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+/* Inside the song-header, float the toggle to the top-right so the
+   title (and the rest of the frontmatter) flows alongside it. */
+.song-header .layout-toggle {
+  float: right;
+  margin: 0.3rem 0 0 1rem;
+}
+
+/* Print tip on the screen song page: hidden on screen, only appears
+   on paper if someone hits Cmd+P from the screen view (the dedicated
+   print view is the better experience). */
+.print-tip {
+  display: none;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0 0 1rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+body {
+  font-family: Georgia, "Iowan Old Style", serif;
+  color: var(--fg);
+  background: var(--bg);
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  line-height: 1.5;
+}
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.home {
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+h1 { margin-bottom: 0.25rem; }
+
+.song-header {
+  margin-bottom: 1.25rem;
+  display: flow-root; /* contain the layout-toggle + song-vitals floats */
+}
+
+/* Below the title h1: a two-column flex row. Left column holds the
+   byline (author / year) and the Metadata drawer; right column is
+   .song-vitals (Bop + rnge, stacked). The h1 above is full-width
+   (its first line wraps around the Print view float). */
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.meta-row .meta-left {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.song-vitals {
+  flex: 0 0 auto;
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.25rem 0.5rem;
+}
+
+.song-vitals .song-meta + .song-meta {
+  margin-top: 0.15rem;
+}
+
+.song-header h1 {
+  margin: 0 0 0.1rem;
+  line-height: 1.2;
+}
+
+.song-header .alt-title {
+  font-style: italic;
+  font-weight: normal;
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-left: 0.2rem;
+}
+
+.song .byline {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 0.3rem;
+}
+
+/* Metadata laid out as a single inline flow of "Label: value" pairs
+   separated by middots, so the whole block is one (occasionally two)
+   visual line instead of a tall key/value grid. */
+.song-meta {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.song-meta dt,
+.song-meta dd {
+  display: inline;
+  margin: 0;
+}
+
+.song-meta dt {
+  font-weight: normal;
+}
+
+.song-meta dt::after {
+  content: ": ";
+}
+
+.song-meta dd {
+  color: var(--fg);
+}
+
+.song-meta dd:not(:last-of-type)::after {
+  content: " · ";
+  color: var(--separator);
+  margin: 0 0.1rem;
+}
+
+
+/* Vocal/instrumental range: rendered from the "ab-cd" frontmatter
+   string as two halves (low note as <sub>, high note as <sup>) with
+   a short diagonal line between them going up-and-right. The line
+   is an inline SVG sized in em units so it scales with surrounding
+   text; stroke uses currentColor so it picks up the active text
+   color (black on print, fg/muted on screen). */
+.range {
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.range .range-low,
+.range .range-high {
+  font-size: 0.85em;
+}
+
+.range-bar {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  margin: 0 0.05em;
+}
+
+/* Collapsible "Metadata" drawer on the screen song page (native
+   <details>/<summary>). Holds the secondary metadata fields
+   (genre, mood, structure, topics); bop_rating sits outside the
+   drawer so the rating is always visible. */
+.song-meta-drawer {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.song-meta-drawer summary {
+  cursor: pointer;
+  list-style-position: outside;
+  width: max-content;
+}
+
+.song-meta-drawer summary:hover {
+  color: var(--accent);
+}
+
+.song-meta-drawer .song-meta {
+  margin-top: 0.15rem;
+}
+
+/* Inline links inside song-meta (song page) and index-meta (index page
+   rows). Subtle dotted underline by default so users see they're
+   actionable; accent color + accent underline on hover. */
+.song-meta dd a,
+.index-meta a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--separator);
+  text-underline-offset: 3px;
+}
+
+.song-meta dd a:hover,
+.index-meta a:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+.song .notes {
+  border-left: 2px solid var(--accent);
+  padding: 0.05rem 0 0.05rem 0.6rem;
+  margin: 2rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.song .notes .notes-label {
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.song-list {
+  list-style: none;
+  padding: 0;
+}
+
+.song-list li {
+  border-bottom: 1px dotted var(--border);
+}
+
+/* The song-link in a list row (whole row on home, title row on an
+   index page). Scoped to direct children of <li> so nested index
+   links in .index-meta keep default styling. */
+.song-list > li > a {
+  display: block;
+  padding: 0.5rem 0.6rem;
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 3px;
+}
+
+/* On index pages the meta row hangs below the title link; trim the
+   bottom padding so they sit tight together. */
+.song-list > li:has(.index-meta) > a {
+  padding-bottom: 0.1rem;
+}
+
+.song-list > li > a:hover {
+  background: var(--hover-bg);
+  color: var(--accent);
+}
+
+.song-list .alt-title {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.song-list .author {
+  color: var(--muted);
+}
+
+/* Index pages: one page per (field, value) pair, rich per-song rows. */
+.index-heading {
+  margin-bottom: 0.25rem;
+}
+
+.index-heading .index-field {
+  color: var(--muted);
+  font-weight: normal;
+  text-transform: lowercase;
+  margin-right: 0.3rem;
+}
+
+.index-count {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0 0 1.25rem;
+}
+
+.index-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0;
+  padding: 0 0.6rem 0.5rem;
+  font-weight: normal;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.index-meta > span:not(:last-child)::after {
+  content: "·";
+  margin: 0 0.5rem;
+  color: var(--separator);
+}
+
+.song-body pre {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  background: transparent;
+  padding: 0;
+  white-space: pre-wrap;
+  line-height: 1.8;
+}
+
+/* Bracketed chords above lyrics, e.g. [G] */
+.song-body pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Indented blocks in song markdown render as choruses. */
+.song-body .chorus {
+  white-space: pre-wrap;
+  font-style: italic;
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
+  padding: 0.25rem 0 0.25rem 0.9rem;
+  margin: 0.75rem 0 0.75rem 0.5rem;
+}
+
+/* Print layout: tuned for A5 paper (148×210mm) so songs print as a
+   pocket-songbook page. The dedicated print page at /songs/<slug>/print/
+   uses base-print.njk, which puts <body class="print-layout">, so the
+   styles below scope to that class instead of @media print. The screen
+   song view at /songs/<slug>/ is unchanged when printed (apart from a
+   tiny print-only tip pointing readers at the print view). */
+@page {
+  size: A5;
+  margin: 12mm 14mm;
+}
+
+.print-layout {
+  background: white;
+  color: black;
+  max-width: none;
+  padding: 0.5rem 0.6rem 1rem;
+  font-size: 10.5pt;
+  line-height: 1.4;
+}
+
+/* Tighter two-line header:
+   Line 1: Title (Alt Title)
+   Line 2: Author · Year · Bop: N
+   Title (with optional alt-title inline) stays on its own line as
+   the h1 block; byline + song-meta collapse onto a single second
+   line. The "· " before song-meta only renders when a byline
+   actually precedes it, so a Bop-only line doesn't start with an
+   orphan separator. */
+.print-layout .song-header {
+  margin-bottom: 0.7rem;
+}
+
+.print-layout .song-header .byline,
+.print-layout .song-header .song-meta,
+.print-layout .song-header .song-meta dt,
+.print-layout .song-header .song-meta dd {
+  display: inline;
+}
+
+.print-layout .song-header h1 {
+  font-size: 1.2rem;
+  margin: 0 0 0.15rem;
+}
+
+.print-layout .song-header .alt-title {
+  font-size: 0.9rem;
+}
+
+.print-layout .song .byline,
+.print-layout .song-meta {
+  font-size: 0.85rem;
+  color: inherit;
+}
+
+.print-layout .song-header .byline + .song-meta::before {
+  content: " · ";
+}
+
+/* On print, pull the .song-vitals block out of the inline header flow
+   and float it to the right of the byline. Each inner .song-meta dl
+   becomes its own block so Bop and rnge stack — matching the screen
+   view's right-aligned two-row vitals column. Border switches to a
+   plain gray to print cleanly (matching the chorus/notes left-bars). */
+.print-layout .song-vitals {
+  float: right;
+  margin-left: 1em;
+  border-color: #999;
+}
+
+.print-layout .song-vitals .song-meta {
+  display: block;
+}
+
+/* Lyrics: shrink the generous screen line-height inside the chord
+   code blocks so verses occupy less vertical space. */
+.print-layout .song-body pre {
+  font-size: 9.5pt;
+  line-height: 1.5;
+}
+
+.print-layout .song-body p {
+  margin: 0.4rem 0;
+}
+
+.print-layout .song-body .chorus {
+  margin: 0.4rem 0 0.4rem 0.4rem;
+  padding: 0.15rem 0 0.15rem 0.6rem;
+}
+
+/* Notes at the bottom in a tighter form. */
+.print-layout .song .notes {
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+}
+
+/* Keep choruses and verse paragraphs from splitting across pages. */
+.print-layout .song-body .chorus,
+.print-layout .song-body p,
+.print-layout .song-body pre {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+/* Print is pure black on white — override every screen-mode color
+   rule (muted bylines, accent chorus/notes bars, fg song-meta dd,
+   etc.) so nothing reads as colored ink on paper. The left-bar
+   accents on .chorus and .notes still render, but in black via
+   currentColor so they match the surrounding text. */
+.print-layout .song-header .alt-title,
+.print-layout .song-meta dd,
+.print-layout .song-body .chorus,
+.print-layout .song .notes,
+.print-layout .song .notes .notes-label {
+  color: inherit;
+}
+
+.print-layout .song-body .chorus,
+.print-layout .song .notes {
+  border-color: #999;
+}
+
+/* Actual-paper print: hide the on-page toggle links (they're nav
+   chrome, not content), and reveal the print-tip on the screen song
+   page so readers know there's a dedicated print view. */
+@media print {
+  .layout-toggle { display: none; }
+  .print-tip { display: block; }
+}
