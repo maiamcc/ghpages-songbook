@@ -252,6 +252,32 @@ h1 {
   white-space: pre;
 }
 
+/* Compact "?" affordance next to an enum value (e.g. joiny_inny in
+   the Metadata drawer). Hovering reveals a native browser tooltip
+   built from lib/enums.yaml via the `enumHelpText` filter — field
+   description first, then one "key: description" line per legal
+   value. `cursor: help` signals to the user that the affordance is
+   informational, not clickable. */
+.enum-legend {
+  display: inline-block;
+  width: 1.3em;
+  height: 1.3em;
+  line-height: 1.2em;
+  margin-left: 0.4em;
+  font-size: 0.85em;
+  text-align: center;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: help;
+  user-select: none;
+}
+
+.enum-legend:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 /* Inline links inside song-meta (song page) and index-meta (index page
    rows). Subtle dotted underline by default so users see they're
    actionable; accent color + accent underline on hover. */
@@ -288,6 +314,55 @@ h1 {
 .song .notes .notes-label {
   font-weight: 600;
   color: var(--fg);
+}
+
+/* Home-page search box above the song list. Inherits the body's
+   serif so it doesn't visually fight the song titles below; accent
+   border on focus to match the rest of the site's focus styling.
+   The wrapper holds an absolutely-positioned magnifying-glass SVG on
+   the left; the input reserves room for it via padding-left. */
+.song-search-wrap {
+  position: relative;
+  margin: 0 0 1rem;
+}
+
+.song-search-icon {
+  position: absolute;
+  left: 0.6rem;
+  top: 50%;
+  width: 1em;
+  height: 1em;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.song-search {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--fg);
+  background: var(--bg);
+  padding: 0.4rem 0.6rem 0.4rem 2rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.song-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.song-search:disabled {
+  color: var(--muted);
+  background: color-mix(in srgb, var(--border) 30%, var(--bg));
+}
+
+.song-search-empty {
+  color: var(--muted);
+  font-size: 0.95rem;
+  padding: 0.5rem 0.6rem;
 }
 
 .song-list {
