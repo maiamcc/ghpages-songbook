@@ -221,6 +221,9 @@ h1 {
   margin: 0.25rem 0 0;
   font-size: 0.9rem;
   color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.3rem 0.5rem;
 }
 
 .song-meta-drawer summary {
@@ -233,13 +236,10 @@ h1 {
   color: var(--accent);
 }
 
-/* When the drawer is open, hang its children below the "Metadata"
-   summary with a thin connector line and an indent — visually
-   binds the dl to its parent <summary> as a single unit. */
+/* When the drawer is open, indent the content slightly below the summary. */
 .song-meta-drawer .song-meta {
-  margin: 0.3rem 0 0 0.45rem;
-  padding: 0.1rem 0 0.1rem 0.7rem;
-  border-left: 2px solid var(--separator);
+  margin: 0.3rem 0 0;
+  padding: 0.1rem 0;
 }
 
 /* In the drawer the .song-meta dl holds multiple pairs, so replace
@@ -380,6 +380,13 @@ h1 {
 /* Thin rule between the lyric body and the notes paragraph (screen
    and print). Lives inside the {% if notes %} block, so absent when
    notes are. Owns the vertical spacing — .notes itself is margin:0. */
+.section-sep {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1.25rem auto;
+  width: 8rem;
+}
+
 .notes-sep {
   border: 0;
   border-top: 1px solid var(--border);
@@ -662,9 +669,110 @@ h1 {
    to pure black so the on-screen soft-black --fg doesn't waste a
    half-percent of toner, and pin link color to currentColor so no
    accent ink hits paper. */
+.song-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
 @media print {
   .layout-toggle { display: none; }
   .print-tip { display: block; }
   body { color: black; }
   a, a:hover { color: inherit; }
+}
+
+/* Home-page filter panel (below search box). A <details> element
+   collapses the whole panel; inside, one row per filterable field
+   with toggle-button pills for each distinct value present in songs. */
+.song-filters {
+  margin: 0 0 1rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.3rem 0.6rem;
+}
+
+.song-filter-summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--muted);
+  user-select: none;
+  width: max-content;
+}
+
+.song-filter-summary:hover {
+  color: var(--accent);
+}
+
+.filter-panel {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-clear {
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.15rem 0.5rem;
+  cursor: pointer;
+  width: max-content;
+  margin-bottom: 0.15rem;
+}
+
+.filter-clear:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.filter-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.5rem;
+}
+
+.filter-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+  flex-shrink: 0;
+  min-width: 6rem;
+}
+
+.filter-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.filter-btn {
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.1rem 0.4rem;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.filter-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.filter-btn--active {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.filter-btn--active:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
 }
