@@ -21,73 +21,17 @@
 </h1>
 <p class="index-count">4 songs</p>
 
-<ul class="song-list">
-  
-    <li>
-      <a href="../../../songs/fire-in-the-hole/">
-        Fire In the Hole
-      </a>
-      <div class="index-meta">
-        <span><a href="../../../index/genre/protest-song/" title="2 songs">protest-song</a></span>
-        <span><a href="../../../index/mood/rousing/" title="6 songs">rousing</a></span>
-        
-          <span class="rating"><a href="../../../index/bop_rating/4/" title="6 songs">4 / 5</a></span>
-        
-        <span><a href="../../../index/structure/chorus/" title="it&#39;s a chorus.">chorus</a></span>
-        <span><a href="../../../index/joiny_inny/moderate/" title="4 songs">moderate</a></span>
-        <span><a href="../../../index/topics/mining/" title="1 song">mining</a>, <a href="../../../index/topics/labor/" title="2 songs">labor</a></span>
-      </div>
-    </li>
-  
-    <li>
-      <a href="../../../songs/getting-dark-again/">
-        Getting Dark Again
-      </a>
-      <div class="index-meta">
-        
-        <span><a href="../../../index/mood/rousing/" title="6 songs">rousing</a></span>
-        
-          <span class="rating"><a href="../../../index/bop_rating/5/" title="3 songs">5 / 5</a></span>
-        
-        <span><a href="../../../index/structure/chorus/" title="it&#39;s a chorus.">chorus</a></span>
-        <span><a href="../../../index/joiny_inny/moderate/" title="4 songs">moderate</a></span>
-        <span><a href="../../../index/topics/music-dance/" title="1 song">music / dance</a></span>
-      </div>
-    </li>
-  
-    <li>
-      <a href="../../../songs/its-a-pleasure-to-know-you/">
-        It&#39;s a Pleasure to Know You
-      </a>
-      <div class="index-meta">
-        
-        <span><a href="../../../index/mood/uplifting/" title="4 songs">uplifting</a></span>
-        
-          <span class="rating"><a href="../../../index/bop_rating/3/" title="3 songs">3 / 5</a></span>
-        
-        <span><a href="../../../index/structure/chorus/" title="it&#39;s a chorus.">chorus</a></span>
-        <span><a href="../../../index/joiny_inny/moderate/" title="4 songs">moderate</a></span>
-        <span><a href="../../../index/topics/friendship/" title="1 song">friendship</a></span>
-      </div>
-    </li>
-  
-    <li>
-      <a href="../../../songs/oars-and-row/">
-        Oars and Row (Tide and the River Rising)
-      </a>
-      <div class="index-meta">
-        
-        <span><a href="../../../index/mood/sweet/" title="1 song">sweet</a></span>
-        
-          <span class="rating"><a href="../../../index/bop_rating/3/" title="3 songs">3 / 5</a></span>
-        
-        <span><a href="../../../index/structure/chorus/" title="it&#39;s a chorus.">chorus</a></span>
-        <span><a href="../../../index/joiny_inny/moderate/" title="4 songs">moderate</a></span>
-        <span><a href="../../../index/topics/childhood/" title="2 songs">childhood</a></span>
-      </div>
-    </li>
-  
-</ul>
+
+
+<div id="song-table-wrap" class="song-table-wrap"></div>
+
+<script id="filter-config" type="application/json">
+{"fields": [{"key":"bop_rating","label":"Bop","valueOrder":["1","2","3","4","5"],"indexable":true},{"key":"mood","label":"Mood","valueOrder":["rousing","silly","uplifting","peaceful","spooky","sweet","melancholy","fun","badass","bawdy","sad"],"indexable":true},{"key":"genre","label":"Genre","valueOrder":["chantey","hymn","parody","kids-song","drinking-song","lullaby","spiritual","protest-song","satire"],"indexable":true},{"key":"structure","label":"Structure","valueOrder":["chorus","zipper","short-refrain","repeat-line-you-listen-for","call-and-response","2nd-4th-lines-repeat","counting","refrain-lines","no-chorus","folderol"],"indexable":true},{"key":"joiny_inny","label":"Joiny-inny","valueOrder":["very-easy","easy","moderate","hard"],"indexable":true},{"key":"known","label":"Known","valueOrder":["1","2","3","4","to-learn"],"indexable":true},{"key":"topics","label":"Topics","indexable":true},{"key":"in_nb","label":"In notebook"}]}
+</script>
+<script id="table-config" type="application/json">
+{"searchIndexUrl": "/search-index.json", "filterIndexUrl": "/filter-index.json", "lockedFilter": {"field": "joiny_inny", "value": "moderate"}}
+</script>
+<script type="module" src="../../../assets/table.js"></script>
 
     </main>
   </body>

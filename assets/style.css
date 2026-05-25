@@ -484,13 +484,243 @@ h1 {
   background: var(--hover-bg);
 }
 
-.song-list .alt-title {
+.song-list .alt-title,
+.song-table .alt-title {
   color: var(--muted);
   font-style: italic;
 }
 
+/* In the table title cell, treat the alt title as an atomic inline block
+   so a line break always falls before it, never inside it. */
+.song-table .alt-title {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .song-list .author {
   color: var(--muted);
+}
+
+/* ── Home page song table ─────────────────────────────────────────────────── */
+
+.song-table-wrap {
+  position: relative;
+}
+
+.song-table-scroll {
+  overflow-x: auto;
+}
+
+/* Edge gradient fades: signal scrollable content to the left or right.
+   JS toggles .visible based on scroll position. */
+.table-scroll-hint {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.table-scroll-hint.visible {
+  opacity: 1;
+}
+
+.table-scroll-hint--right {
+  right: 0;
+  background: linear-gradient(to right, transparent, var(--bg));
+}
+
+.table-scroll-hint--left {
+  left: 0;
+  background: linear-gradient(to left, transparent, var(--bg));
+}
+
+/* Meatball wrapper: absolutely positioned at the top-right of
+   .song-table-wrap so it sits level with the thead row. z-index keeps
+   it above the scroll-hint gradient. */
+.song-table-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 20;
+}
+
+.table-cols-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.55rem;
+  cursor: pointer;
+  font-size: 1.15rem;
+  line-height: 1.2;
+  color: var(--fg);
+}
+.table-cols-btn:hover {
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+}
+
+/* Reserve space in the last header cell so its text doesn't run under
+   the absolutely-positioned meatball button. */
+.song-table thead th:last-child {
+  padding-right: 2.5rem;
+}
+
+.table-cols-menu {
+  position: absolute;
+  top: calc(100% + 3px);
+  right: 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.35rem 0.6rem;
+  z-index: 100;
+  min-width: 150px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+.table-cols-menu label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.song-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.song-table th,
+.song-table td {
+  padding: 0.35rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.song-table thead th {
+  border-bottom: 2px solid var(--separator);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Sort button inside each <th> — flush with the cell, styled as a header. */
+.sort-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: inherit;
+  color: inherit;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.sort-btn:hover {
+  color: var(--accent);
+}
+.sort-btn.sort-asc::after {
+  content: " ▲";
+  font-size: 0.7em;
+  color: var(--accent);
+}
+.sort-btn.sort-desc::after {
+  content: " ▼";
+  font-size: 0.7em;
+  color: var(--accent);
+}
+
+/* Remove button inside optional column headers: "[X]" label to the
+   left of the column name. */
+.col-remove-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 0.3em;
+  cursor: pointer;
+  font-size: 0.75em;
+  font-family: inherit;
+  color: var(--muted);
+  vertical-align: middle;
+}
+
+.col-remove-btn:hover {
+  color: var(--accent);
+}
+
+/* Row hover highlights the whole row. Clicking anywhere in the row (except
+   a link) navigates to the song. Suppress the row highlight when hovering a
+   non-title link so it feels distinct from row-navigation; keep it for the
+   title link since the title IS the row destination. */
+.song-tr {
+  cursor: pointer;
+}
+
+.song-tr:hover {
+  background: var(--hover-bg);
+}
+
+.song-tr:has(.song-td:not(.song-td--title) a:hover) {
+  background: none;
+}
+
+/* Index links inside table cells — same dotted-underline as song-meta links. */
+.song-table .song-td a {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+.song-table .song-td a:hover {
+  text-decoration-color: var(--accent-dark);
+}
+
+/* Non-chip index links get a pill background on hover. Padding is applied
+   at rest too (offset by negative margin) so the text doesn't shift. */
+.song-table .song-td a:not(.cell-chip) {
+  padding: 0.1rem 0.2rem;
+  margin: -0.1rem -0.2rem;
+  border-radius: 3px;
+}
+
+.song-table .song-td a:not(.cell-chip):hover {
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+}
+
+.song-td--title a:hover {
+  background: none;
+}
+
+/* Chips for list-valued fields in table cells (mood, structure, topics). */
+.cell-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+}
+.cell-chip {
+  background: color-mix(in srgb, var(--border) 40%, var(--bg));
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+/* When a chip is itself a link, keep the chip visual and suppress the
+   default underline (the chip border provides enough affordance). */
+a.cell-chip {
+  text-decoration: none;
+}
+
+a.cell-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* Index pages: one page per (field, value) pair, rich per-song rows. */

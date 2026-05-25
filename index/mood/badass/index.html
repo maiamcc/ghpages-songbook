@@ -21,25 +21,17 @@
 </h1>
 <p class="index-count">1 song</p>
 
-<ul class="song-list">
-  
-    <li>
-      <a href="../../../songs/jackie-munroe/">
-        Jackie Munroe
-      </a>
-      <div class="index-meta">
-        
-        <span><a href="../../../index/mood/badass/" title="1 song">badass</a></span>
-        
-          <span class="rating"><a href="../../../index/bop_rating/4/" title="6 songs">4 / 5</a></span>
-        
-        <span><a href="../../../index/structure/refrain-lines/" title="repeating line(s) interspersed with verse">refrain lines</a>, <a href="../../../index/structure/folderol/" title="nonsense words">folderol</a></span>
-        <span><a href="../../../index/joiny_inny/easy/" title="7 songs">easy</a></span>
-        <span><a href="../../../index/topics/feminism/" title="1 song">feminism</a>, <a href="../../../index/topics/love/" title="3 songs">love</a>, <a href="../../../index/topics/war/" title="1 song">war</a>, <a href="../../../index/topics/sea-sailors/" title="2 songs">sea / sailors</a></span>
-      </div>
-    </li>
-  
-</ul>
+
+
+<div id="song-table-wrap" class="song-table-wrap"></div>
+
+<script id="filter-config" type="application/json">
+{"fields": [{"key":"bop_rating","label":"Bop","valueOrder":["1","2","3","4","5"],"indexable":true},{"key":"mood","label":"Mood","valueOrder":["rousing","silly","uplifting","peaceful","spooky","sweet","melancholy","fun","badass","bawdy","sad"],"indexable":true},{"key":"genre","label":"Genre","valueOrder":["chantey","hymn","parody","kids-song","drinking-song","lullaby","spiritual","protest-song","satire"],"indexable":true},{"key":"structure","label":"Structure","valueOrder":["chorus","zipper","short-refrain","repeat-line-you-listen-for","call-and-response","2nd-4th-lines-repeat","counting","refrain-lines","no-chorus","folderol"],"indexable":true},{"key":"joiny_inny","label":"Joiny-inny","valueOrder":["very-easy","easy","moderate","hard"],"indexable":true},{"key":"known","label":"Known","valueOrder":["1","2","3","4","to-learn"],"indexable":true},{"key":"topics","label":"Topics","indexable":true},{"key":"in_nb","label":"In notebook"}]}
+</script>
+<script id="table-config" type="application/json">
+{"searchIndexUrl": "/search-index.json", "filterIndexUrl": "/filter-index.json", "lockedFilter": {"field": "mood", "value": "badass"}}
+</script>
+<script type="module" src="../../../assets/table.js"></script>
 
     </main>
   </body>

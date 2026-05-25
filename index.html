@@ -33,92 +33,12 @@
   <summary class="song-filter-summary">Filters</summary>
   <div class="filter-panel" id="filter-panel"></div>
 </details>
-<ul class="song-list" id="song-list">
-  
-    <li data-url="/songs/bells-of-norwich/">
-      <a href="songs/bells-of-norwich/">
-        The Bells of Norwich<span class="alt-title"> (All Shall Be Well)</span><span class="author"> — Sydney Carter</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/cairo-town/">
-      <a href="songs/cairo-town/">
-        Cairo Town<span class="alt-title"> (The Roustabout Song)</span><span class="author"> — Dillon Bustin</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/davy-cross/">
-      <a href="songs/davy-cross/">
-        Davy Cross<span class="author"> — Paul Davenport</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/fire-in-the-hole/">
-      <a href="songs/fire-in-the-hole/">
-        Fire In the Hole<span class="author"> — Hazel Dickens</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/getting-dark-again/">
-      <a href="songs/getting-dark-again/">
-        Getting Dark Again<span class="author"> — TK</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/its-a-pleasure-to-know-you/">
-      <a href="songs/its-a-pleasure-to-know-you/">
-        It&#39;s a Pleasure to Know You<span class="author"> — Karl Williams</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/jackie-munroe/">
-      <a href="songs/jackie-munroe/">
-        Jackie Munroe<span class="author"> — TK</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/kindergarten-wall/">
-      <a href="songs/kindergarten-wall/">
-        Kindergarten Wall<span class="author"> — TK</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/oars-and-row/">
-      <a href="songs/oars-and-row/">
-        Oars and Row (Tide and the River Rising)<span class="author"> — TK</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/pleasant-and-delightful/">
-      <a href="songs/pleasant-and-delightful/">
-        Pleasant and Delightful<span class="author"> — TK</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/union-maid/">
-      <a href="songs/union-maid/">
-        Union Maid<span class="author"> — Woody Guthrie</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/wayfaring-stranger/">
-      <a href="songs/wayfaring-stranger/">
-        Wayfaring Stranger<span class="author"> — TK</span>
-      </a>
-    </li>
-  
-    <li data-url="/songs/wild-rover/">
-      <a href="songs/wild-rover/">
-        Wild Rover<span class="author"> — TK</span>
-      </a>
-    </li>
-  
-</ul>
+<div id="song-table-wrap" class="song-table-wrap"></div>
 <p id="song-search-empty" class="song-search-empty" hidden><em>No songs match.</em></p>
 <script id="filter-config" type="application/json">
-{"fields": [{"key":"bop_rating","label":"Bop","valueOrder":["1","2","3","4","5"]},{"key":"mood","label":"Mood","valueOrder":["rousing","silly","uplifting","peaceful","spooky","sweet","melancholy","fun","badass","bawdy","sad"]},{"key":"genre","label":"Genre","valueOrder":["chantey","hymn","parody","kids-song","drinking-song","lullaby","spiritual","protest-song","satire"]},{"key":"structure","label":"Structure","valueOrder":["chorus","zipper","short-refrain","repeat-line-you-listen-for","call-and-response","2nd-4th-lines-repeat","counting","refrain-lines","no-chorus","folderol"]},{"key":"joiny_inny","label":"Joiny-inny","valueOrder":["very-easy","easy","moderate","hard"]},{"key":"known","label":"Known","valueOrder":["1","2","3","4"]},{"key":"topics","label":"Topics"},{"key":"in_nb","label":"In notebook"}]}
+{"fields": [{"key":"bop_rating","label":"Bop","valueOrder":["1","2","3","4","5"],"indexable":true},{"key":"mood","label":"Mood","valueOrder":["rousing","silly","uplifting","peaceful","spooky","sweet","melancholy","fun","badass","bawdy","sad"],"indexable":true},{"key":"genre","label":"Genre","valueOrder":["chantey","hymn","parody","kids-song","drinking-song","lullaby","spiritual","protest-song","satire"],"indexable":true},{"key":"structure","label":"Structure","valueOrder":["chorus","zipper","short-refrain","repeat-line-you-listen-for","call-and-response","2nd-4th-lines-repeat","counting","refrain-lines","no-chorus","folderol"],"indexable":true},{"key":"joiny_inny","label":"Joiny-inny","valueOrder":["very-easy","easy","moderate","hard"],"indexable":true},{"key":"known","label":"Known","valueOrder":["1","2","3","4","to-learn"],"indexable":true},{"key":"topics","label":"Topics","indexable":true},{"key":"in_nb","label":"In notebook"}]}
 </script>
-<script type="module" src="assets/search.js"></script>
+<script type="module" src="assets/table.js"></script>
 
     </main>
   </body>
