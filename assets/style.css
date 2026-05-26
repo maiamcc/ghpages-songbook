@@ -807,6 +807,26 @@ a.cell-chip:hover {
   margin: 0.75rem 0 0.75rem 0.5rem;
 }
 
+/* Refrain lines carry both .chorus and .refrain. .chorus handles all visual
+   properties; .refrain overrides margin and padding so refrains flow tight
+   against surrounding verse without vertical separation. */
+.song-body .refrain {
+  margin: 0 0 0 0.5rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Suppress paragraph margins only where verse and refrain are in the same
+   stanza. verse-pre-refrain marks a verse <p> whose next sibling is a
+   refrain; refrain-mid marks a refrain whose next sibling is a verse in the
+   same stanza. Stanza boundaries retain their normal spacing. */
+.song-body p.verse-pre-refrain {
+  margin-bottom: 0;
+}
+.song-body .refrain-mid + p {
+  margin-top: 0;
+}
+
 /* Print layout: tuned for A5 paper (148×210mm) so songs print as a
    pocket-songbook page. The dedicated print page at /songs/<slug>/print/
    uses base-print.njk, which puts <body class="print-layout">, so the
@@ -901,6 +921,19 @@ a.cell-chip:hover {
   line-height: 1.25;
 }
 
+.print-layout .song-body .refrain {
+  margin: 0 0 0 0.4rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.print-layout .song-body p.verse-pre-refrain {
+  margin-bottom: 0;
+}
+.print-layout .song-body .refrain-mid + p {
+  margin-top: 0;
+}
+
 /* Notes at the bottom in a tighter form. */
 .print-layout .notes-sep {
   margin: 0.5rem 0;
@@ -910,8 +943,9 @@ a.cell-chip:hover {
   font-size: 0.8rem;
 }
 
-/* Keep choruses and verse paragraphs from splitting across pages. */
+/* Keep choruses, refrains, and verse paragraphs from splitting across pages. */
 .print-layout .song-body .chorus,
+.print-layout .song-body .refrain,
 .print-layout .song-body p {
   page-break-inside: avoid;
   break-inside: avoid;
@@ -925,12 +959,14 @@ a.cell-chip:hover {
 .print-layout .song-header .alt-title,
 .print-layout .song-meta dd,
 .print-layout .song-body .chorus,
+.print-layout .song-body .refrain,
 .print-layout .song .notes,
 .print-layout .song .notes .notes-label {
   color: inherit;
 }
 
 .print-layout .song-body .chorus,
+.print-layout .song-body .refrain,
 .print-layout .song .notes {
   border-color: #999;
 }
