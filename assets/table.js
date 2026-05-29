@@ -314,15 +314,16 @@ const DEFAULT_COL_LABELS = {
     selectAllCb.type = "checkbox";
     selectAllCb.className = "row-check";
     selectAllCb.setAttribute("aria-label", "Select all visible songs");
-    const visibleSelected = sorted.filter((s) => selectedUrls.has(s.url)).length;
-    selectAllCb.checked = sorted.length > 0 && visibleSelected === sorted.length;
-    selectAllCb.indeterminate = visibleSelected > 0 && visibleSelected < sorted.length;
+    const printable = sorted.filter((s) => s.has_lyrics !== false);
+    const visibleSelected = printable.filter((s) => selectedUrls.has(s.url)).length;
+    selectAllCb.checked = printable.length > 0 && visibleSelected === printable.length;
+    selectAllCb.indeterminate = visibleSelected > 0 && visibleSelected < printable.length;
     selectAllCb.addEventListener("click", (e) => e.stopPropagation());
     selectAllCb.addEventListener("change", () => {
       if (selectAllCb.checked) {
-        for (const s of sorted) selectedUrls.add(s.url);
+        for (const s of printable) selectedUrls.add(s.url);
       } else {
-        for (const s of sorted) selectedUrls.delete(s.url);
+        for (const s of printable) selectedUrls.delete(s.url);
       }
       renderAll();
     });
@@ -384,38 +385,47 @@ const DEFAULT_COL_LABELS = {
     tbody.innerHTML = "";
     for (const song of songs) {
       const tr = document.createElement("tr");
-      tr.className = "song-tr";
-      tr.addEventListener("click", (e) => {
-        if (e.target.closest("a")) return;
-        if (e.target.closest("input[type=checkbox]")) return;
-        window.location.href = pathPrefix + song.url.replace(/^\//, "");
-      });
+      const hasLyrics = song.has_lyrics !== false;
+      tr.className = hasLyrics ? "song-tr" : "song-tr song-tr--no-lyrics";
+      if (hasLyrics) {
+        tr.addEventListener("click", (e) => {
+          if (e.target.closest("a")) return;
+          if (e.target.closest("input[type=checkbox]")) return;
+          window.location.href = pathPrefix + song.url.replace(/^\//, "");
+        });
+      }
 
-      // Row checkbox
+      // Row checkbox (omitted for songs without lyrics — nothing to print)
       const checkTd = document.createElement("td");
       checkTd.className = "song-td song-td--check";
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-      cb.className = "row-check";
-      cb.checked = selectedUrls.has(song.url);
-      cb.setAttribute("aria-label", `Select ${song.title || song.url}`);
-      cb.addEventListener("click", (e) => e.stopPropagation());
-      cb.addEventListener("change", () => {
-        if (cb.checked) selectedUrls.add(song.url);
-        else selectedUrls.delete(song.url);
-        renderAll();
-      });
-      checkTd.appendChild(cb);
+      if (hasLyrics) {
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.className = "row-check";
+        cb.checked = selectedUrls.has(song.url);
+        cb.setAttribute("aria-label", `Select ${song.title || song.url}`);
+        cb.addEventListener("click", (e) => e.stopPropagation());
+        cb.addEventListener("change", () => {
+          if (cb.checked) selectedUrls.add(song.url);
+          else selectedUrls.delete(song.url);
+          renderAll();
+        });
+        checkTd.appendChild(cb);
+      }
       tr.appendChild(checkTd);
 
       for (const col of cols) {
         const td = document.createElement("td");
         td.className = col === "title" ? "song-td song-td--title" : "song-td";
         if (col === "title") {
-          const a = document.createElement("a");
-          a.href = pathPrefix + song.url.replace(/^\//, "");
-          a.textContent = song.title || "(untitled)";
-          td.appendChild(a);
+          if (hasLyrics) {
+            const a = document.createElement("a");
+            a.href = pathPrefix + song.url.replace(/^\//, "");
+            a.textContent = song.title || "(untitled)";
+            td.appendChild(a);
+          } else {
+            td.appendChild(document.createTextNode(song.title || "(untitled)"));
+          }
           if (song.alternate_title) {
             td.appendChild(document.createTextNode(" "));
             const alt = document.createElement("span");
