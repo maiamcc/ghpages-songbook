@@ -73,6 +73,10 @@
   border-radius: 3px;
 }
 
+strong {
+  font-weight: 700;
+}
+
 body {
   font-family: "Cormorant", Georgia, "Iowan Old Style", serif;
   font-weight: 500;
@@ -863,6 +867,11 @@ a.cell-chip:hover {
   border-left: 3px solid var(--accent);
   padding: 0.25rem 0 0.25rem 0.9rem;
   margin: 0.75rem 0 0.75rem 0.5rem;
+}
+
+/* Markdown *em* inside a chorus cancels the parent italic so it reads as emphasis. */
+.song-body .chorus em {
+  font-style: normal;
 }
 
 /* Refrain lines carry both .chorus and .refrain. .chorus handles all visual
