@@ -873,9 +873,21 @@ a.cell-chip:hover {
   white-space: pre-wrap;
   font-style: italic;
   color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-left: none;
+  position: relative;
   padding: 0.25rem 0 0.25rem 0.9rem;
   margin: 0.75rem 0 0.75rem 0.5rem;
+}
+.song-body .chorus::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 3px;
+  background: var(--accent);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
 }
 
 /* Markdown *em* inside a chorus cancels the parent italic so it reads as emphasis. */
@@ -890,6 +902,19 @@ a.cell-chip:hover {
   margin: 0 0 0 0.5rem;
   padding-top: 0;
   padding-bottom: 0;
+  border-left: none;
+  position: relative;
+}
+.song-body .refrain::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--accent);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
 }
 
 /* Suppress paragraph margins only where verse and refrain are in the same
@@ -897,10 +922,10 @@ a.cell-chip:hover {
    refrain; refrain-mid marks a refrain whose next sibling is a verse in the
    same stanza. Stanza boundaries retain their normal spacing. */
 .song-body p.verse-pre-refrain {
-  margin-bottom: 0;
+  margin-bottom: -0.1rem;
 }
 .song-body .refrain-mid + p {
-  margin-top: 0;
+  margin-top: -0.1rem;
 }
 
 /* 2-space-indented lines render as <p class="indent">, flowing tight with
@@ -1021,13 +1046,26 @@ a.cell-chip:hover {
   margin: 0 0 0 0.4rem;
   padding-top: 0;
   padding-bottom: 0;
+  border-left: none;
+  position: relative;
+}
+.print-layout .song-body .refrain::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--accent);
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
 }
 
 .print-layout .song-body p.verse-pre-refrain {
-  margin-bottom: 0;
+  margin-bottom: -0.1rem;
 }
 .print-layout .song-body .refrain-mid + p {
-  margin-top: 0;
+  margin-top: -0.1rem;
 }
 
 .print-layout .song-body p.indent {
@@ -1073,10 +1111,12 @@ a.cell-chip:hover {
   color: inherit;
 }
 
-.print-layout .song-body .chorus,
-.print-layout .song-body .refrain,
 .print-layout .song .notes {
   border-color: #999;
+}
+.print-layout .song-body .chorus::before,
+.print-layout .song-body .refrain::before {
+  background: #999;
 }
 
 /* Actual-paper print: hide the on-page toggle links (they're nav
@@ -1183,7 +1223,7 @@ a.cell-chip:hover {
    Each .chorus-entry is kept intact (no column break inside it).
    The h1 is compact; verse lines are italic via <em>; chorus lines are plain. */
 .choruses-page-title {
-  font-size: 13pt;
+  font-size: 17.5pt;
   font-weight: 600;
   margin: 0 0 0.15em;
   line-height: 1;
@@ -1191,7 +1231,7 @@ a.cell-chip:hover {
 }
 
 .choruses-page-subtitle {
-  font-size: 9pt;
+  font-size: 12pt;
   font-style: italic;
   margin: 0 0 0.4em;
   text-align: center;
@@ -1204,7 +1244,7 @@ a.cell-chip:hover {
   padding: 0.5em 0 0.75em;
   border-bottom: 1px solid #999;
   list-style: none;
-  font-size: 9.5pt;
+  font-size: 10pt;
   line-height: 1.4;
 }
 
@@ -1219,18 +1259,18 @@ a.cell-chip:hover {
 
 .choruses-print .chorus-entry {
   break-inside: avoid;
-  margin-bottom: 0.9em;
+  margin-bottom: 1em;
 }
 
 .choruses-print .chorus-entry h1 {
-  font-size: 11pt;
+  font-size: 12pt;
   font-weight: 600;
   margin: 0 0 0.2em;
   line-height: 1.2;
 }
 
 .choruses-print .chorus-entry p {
-  font-size: 10.5pt;
+  font-size: 11pt;
   line-height: 1.25;
   margin: 0 0 0.2em;
 }
@@ -1243,7 +1283,7 @@ a.cell-chip:hover {
 
 /* extra breathing room between a refrain paragraph and its chorus */
 .choruses-print .chorus-entry p + p {
-  margin-top: 1em;
+  margin-top: 0.6em;
 }
 
 /* 2-space-indented lines flow tight with surrounding verse, no gaps */
